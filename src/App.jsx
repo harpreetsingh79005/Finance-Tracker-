@@ -7,6 +7,7 @@ import { DashboardView } from './views/DashboardView';
 import { IncomeView } from './views/IncomeView';
 import { ExpensesView } from './views/ExpensesView';
 import { AnalyticsView } from './views/AnalyticsView';
+import { MonthlyStatsView } from './views/MonthlyStatsView';
 import { WalletView } from './views/WalletView';
 import { LoginView } from './views/LoginView';
 import { SignupView } from './views/SignupView';
@@ -44,6 +45,7 @@ function App() {
               <Route path="income" element={<IncomeView />} />
               <Route path="expenses" element={<ExpensesView />} />
               <Route path="analytics" element={<AnalyticsView />} />
+              <Route path="monthly-stats" element={<MonthlyStatsView />} />
             </Route>
           </Routes>
         </BrowserRouter>

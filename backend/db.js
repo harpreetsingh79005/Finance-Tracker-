@@ -12,7 +12,8 @@ export const pool = mysql.createPool({
   database: process.env.DB_NAME || 'finance_tracker',
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  queueLimit: 0,
+  timezone: 'Z'
 });
 
 // Function to initialize the database and tables

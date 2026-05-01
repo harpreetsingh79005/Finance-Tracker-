@@ -19,7 +19,7 @@ export function DataTable({ data, type, onDelete }) {
         <thead className="text-xs text-muted-foreground bg-black/20 uppercase border-b border-border/50">
           <tr>
             <th className="px-6 py-5 font-semibold tracking-wider">Date</th>
-            <th className="px-6 py-5 font-semibold tracking-wider">{type === 'income' ? 'Source' : 'Description'}</th>
+            <th className="px-6 py-5 font-semibold tracking-wider">{type === 'income' ? 'Source' : type === 'expense' ? 'Description' : 'Source/Desc'}</th>
             <th className="px-6 py-5 font-semibold tracking-wider">Category</th>
             <th className="px-6 py-5 font-semibold tracking-wider text-right">Amount</th>
             <th className="px-6 py-5 font-semibold tracking-wider text-right w-16"></th>
@@ -30,10 +30,10 @@ export function DataTable({ data, type, onDelete }) {
             <tr key={row.id} className="group hover:bg-white/[0.02] transition-colors duration-300">
               <td className="px-6 py-4 whitespace-nowrap text-muted-foreground relative">
                 <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary opacity-0 group-hover:opacity-100 transition-opacity shadow-[0_0_10px_rgba(139,92,246,0.8)]" />
-                {format(parseISO(row.date), 'MMM dd, yyyy')}
+                {format(parseISO(row.date), 'MMM dd yyyy, HH:mm')}
               </td>
               <td className="px-6 py-4 font-medium text-foreground">
-                {type === 'income' ? row.source : row.description}
+                {row.type === 'income' ? row.source : row.description}
               </td>
               <td className="px-6 py-4">
                 <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-secondary text-secondary-foreground border border-primary/20">
@@ -42,9 +42,9 @@ export function DataTable({ data, type, onDelete }) {
               </td>
               <td className={cn(
                 "px-6 py-4 text-right font-medium tracking-wide",
-                type === 'income' ? "text-success drop-shadow-[0_0_8px_rgba(16,185,129,0.2)]" : "text-foreground"
+                row.type === 'income' ? "text-success drop-shadow-[0_0_8px_rgba(16,185,129,0.2)]" : "text-foreground"
               )}>
-                {type === 'income' ? '+' : '-'}{formatCurrency(row.amount)}
+                {row.type === 'income' ? '+' : '-'}{formatCurrency(row.amount)}
               </td>
               <td className="px-6 py-4 text-right">
                 <button

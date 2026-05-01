@@ -10,11 +10,20 @@ const getHeaders = () => {
 
 export const api = {
   // Transactions API
-  getTransactions: async () => {
-    const response = await fetch(`${API_URL}/api/transactions`, {
+  getTransactions: async (month) => {
+    const url = month ? `${API_URL}/api/transactions?month=${month}` : `${API_URL}/api/transactions`;
+    const response = await fetch(url, {
       headers: getHeaders()
     });
     if (!response.ok) throw new Error('Failed to fetch transactions');
+    return response.json();
+  },
+
+  getMonthlyStats: async () => {
+    const response = await fetch(`${API_URL}/api/transactions/monthly`, {
+      headers: getHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch monthly stats');
     return response.json();
   },
 

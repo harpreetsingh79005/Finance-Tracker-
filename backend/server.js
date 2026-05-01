@@ -139,13 +139,42 @@ app.get('/api/auth/me', authenticateToken, async (req, res) => {
 
 // --- Transactions ---
 
+// Get monthly stats
+app.get('/api/transactions/monthly', authenticateToken, async (req, res) => {
+  try {
+    const query = `
+      SELECT 
+        DATE_FORMAT(date, '%Y-%m') as month,
+        SUM(CASE WHEN type = 'income' THEN amount ELSE 0 END) as total_income,
+        SUM(CASE WHEN type = 'expense' THEN amount ELSE 0 END) as total_expense
+      FROM transactions
+      WHERE user_id = ?
+      GROUP BY DATE_FORMAT(date, '%Y-%m')
+      ORDER BY month DESC
+    `;
+    const [rows] = await pool.query(query, [req.user.id]);
+    res.status(200).json(rows);
+  } catch (error) {
+    console.error('Fetch monthly stats error:', error);
+    res.status(500).json({ error: 'Server error fetching monthly stats.' });
+  }
+});
+
 // Get all transactions for a user
 app.get('/api/transactions', authenticateToken, async (req, res) => {
   try {
-    const [transactions] = await pool.query(
-      'SELECT * FROM transactions WHERE user_id = ? ORDER BY date DESC',
-      [req.user.id]
-    );
+    const { month } = req.query;
+    let query = 'SELECT * FROM transactions WHERE user_id = ?';
+    const params = [req.user.id];
+
+    if (month) {
+      query += ' AND DATE_FORMAT(date, "%Y-%m") = ?';
+      params.push(month);
+    }
+    
+    query += ' ORDER BY date DESC';
+
+    const [transactions] = await pool.query(query, params);
     res.status(200).json(transactions);
   } catch (error) {
     console.error('Fetch transactions error:', error);

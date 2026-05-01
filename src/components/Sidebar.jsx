@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, ArrowDownCircle, ArrowUpCircle, PieChart, Wallet as WalletIcon, Moon, Sun, LogOut } from 'lucide-react';
+import { LayoutDashboard, ArrowDownCircle, ArrowUpCircle, PieChart, Wallet as WalletIcon, Moon, Sun, LogOut, CalendarDays } from 'lucide-react';
 import { useFinance } from '../context/FinanceContext';
 import { useAuth } from '../context/AuthContext';
 import { cn } from '../utils/cn';
@@ -15,6 +15,7 @@ export function Sidebar() {
     { to: '/income', icon: ArrowDownCircle, label: 'Income' },
     { to: '/expenses', icon: ArrowUpCircle, label: 'Expenses' },
     { to: '/analytics', icon: PieChart, label: 'Analytics' },
+    { to: '/monthly-stats', icon: CalendarDays, label: 'Monthly Stats' },
   ];
 
   return (

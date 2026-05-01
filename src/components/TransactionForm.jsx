@@ -5,7 +5,11 @@ import { useFinance } from '../context/FinanceContext';
 export function TransactionForm({ type, onSubmit, onCancel }) {
   const { walletAssets } = useFinance();
   const [amount, setAmount] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [date, setDate] = useState(() => {
+    const now = new Date();
+    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+    return now.toISOString().slice(0, 16);
+  });
   const [sourceOrDesc, setSourceOrDesc] = useState('');
   const [category, setCategory] = useState('');
   const [walletId, setWalletId] = useState(walletAssets[0]?.id || '');
@@ -87,9 +91,9 @@ export function TransactionForm({ type, onSubmit, onCancel }) {
       </div>
       
       <div className="space-y-2">
-        <label className="text-sm font-medium">Date</label>
+        <label className="text-sm font-medium">Date and Time</label>
         <input
-          type="date"
+          type="datetime-local"
           required
           className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           value={date}
