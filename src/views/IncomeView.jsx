@@ -4,13 +4,14 @@ import { DataTable } from '../components/DataTable';
 import { Modal } from '../components/Modal';
 import { Button } from '../components/Button';
 import { TransactionForm } from '../components/TransactionForm';
+import { MonthSelector } from '../components/MonthSelector';
 import { Plus } from 'lucide-react';
 
 export function IncomeView() {
-  const { transactions, deleteTransaction, addTransaction } = useFinance();
+  const { monthlyTransactions, deleteTransaction, addTransaction } = useFinance();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const incomes = transactions.filter(t => t.type === 'income');
+  const incomes = monthlyTransactions.filter(t => t.type === 'income');
 
   const handleAdd = (data) => {
     addTransaction(data);
@@ -24,10 +25,13 @@ export function IncomeView() {
           <h1 className="text-3xl font-bold tracking-tight">Income</h1>
           <p className="text-muted-foreground mt-1">Manage and track your income sources.</p>
         </div>
-        <Button onClick={() => setIsModalOpen(true)} className="gap-2">
-          <Plus className="w-4 h-4" />
-          Add Income
-        </Button>
+        <div className="flex items-center gap-4">
+          <MonthSelector />
+          <Button onClick={() => setIsModalOpen(true)} className="gap-2">
+            <Plus className="w-4 h-4" />
+            Add Income
+          </Button>
+        </div>
       </div>
 
       <DataTable data={incomes} type="income" onDelete={deleteTransaction} />

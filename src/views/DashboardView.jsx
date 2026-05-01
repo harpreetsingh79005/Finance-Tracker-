@@ -2,8 +2,8 @@ import React from 'react';
 import { useFinance } from '../context/FinanceContext';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/Card';
 import { DataTable } from '../components/DataTable';
-import { Wallet, TrendingUp, TrendingDown, Calendar as CalendarIcon } from 'lucide-react';
-import { format, subMonths, addMonths } from 'date-fns';
+import { Wallet, TrendingUp, TrendingDown } from 'lucide-react';
+import { MonthSelector } from '../components/MonthSelector';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { formatCurrency } from '../utils/format';
 
@@ -12,13 +12,8 @@ export function DashboardView() {
     monthlyTransactions, 
     totals, 
     walletTotal,
-    deleteTransaction,
-    selectedMonth,
-    setSelectedMonth
+    deleteTransaction
   } = useFinance();
-
-  const handlePrevMonth = () => setSelectedMonth(subMonths(selectedMonth, 1));
-  const handleNextMonth = () => setSelectedMonth(addMonths(selectedMonth, 1));
 
   // Prepare data for the quick chart
   const incomeTotal = totals.income;
@@ -35,15 +30,7 @@ export function DashboardView() {
           <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
           <p className="text-muted-foreground mt-1">Here's your financial overview.</p>
         </div>
-        
-        <div className="flex items-center gap-4 bg-card border rounded-lg p-1">
-          <button onClick={handlePrevMonth} className="p-2 hover:bg-muted rounded-md transition-colors">&larr;</button>
-          <div className="flex items-center gap-2 font-medium px-2 min-w-[120px] justify-center">
-            <CalendarIcon className="w-4 h-4 text-muted-foreground" />
-            {format(selectedMonth, 'MMMM yyyy')}
-          </div>
-          <button onClick={handleNextMonth} className="p-2 hover:bg-muted rounded-md transition-colors">&rarr;</button>
-        </div>
+        <MonthSelector />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
