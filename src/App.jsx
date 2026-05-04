@@ -30,7 +30,7 @@ function App() {
   return (
     <AuthProvider>
       <FinanceProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={import.meta.env.BASE_URL}>
           <Routes>
             <Route path="/login" element={<LoginView />} />
             <Route path="/signup" element={<SignupView />} />
