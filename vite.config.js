@@ -4,7 +4,10 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/Finance-Tracker-/',
+  base: process.env.NODE_ENV === 'production' ? '/' : '/Finance-Tracker-/',
+  build: {
+    outDir: 'build',
+  },
   plugins: [
     react(),
     tailwindcss(),
